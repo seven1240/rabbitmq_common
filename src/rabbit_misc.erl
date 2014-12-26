@@ -65,10 +65,10 @@
          unlink_and_capture_exit/1]).
 -export([get_options/2]).
 
--import(mnesia).
--import(lists).
--import(cover).
--import(disk_log).
+-import(mnesia, [dirty_next/2, dirty_first/1, match_object/3, dirty_select/2]).
+-import(lists, [foldl/3, foreach/2, foldr/3, flatten/1, append/3, splitwith/2, dropwhile/2, keysort/2, reverse/1, filter/2, keysearch/3, sort/2]).
+-import(cover, [modules/0, analyze_to_file/3, analyze/2, start/1, compile_beam_directory/1]).
+-import(disk_log, [chunk/2, open/3, close/1]).
 
 %%----------------------------------------------------------------------------
 
@@ -469,7 +469,6 @@ dirty_dump_log1(LH, {K, Terms}) ->
 dirty_dump_log1(LH, {K, Terms, BadBytes}) ->
     io:format("Bad Chunk, ~p: ~p~n", [BadBytes, Terms]),
     dirty_dump_log1(LH, disk_log:chunk(LH, K)).
-
 
 read_term_file(File) -> file:consult(File).
 
